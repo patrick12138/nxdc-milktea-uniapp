@@ -4,7 +4,6 @@ export default {
 	"nickname": "tinypuppet",
 	"avatar": "/static/images/mine/default.png",
 	"country": "",
-	"cardName": "V2",
 	"memberLevel": 2,
 	"city": "",
 	"cardNo": "39390020696322222",

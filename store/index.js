@@ -16,7 +16,7 @@ const store = new Vuex.Store({
 		order: {}
 	},
 	getters: {
-		isLogin: state => Object.keys(state.member).length > 0	//是否登录
+		isLogin: state => Object.keys(state.member).length > 0	,//是否登录
 	},
 	mutations: {
 		SET_ORDER_TYPE(state, type) {
@@ -39,6 +39,9 @@ const store = new Vuex.Store({
 		},
 		REMOVE_CART(state) {
 			state.cart = []
+		},
+		REMOVE_MEMBER(state){
+			state.member = {}
 		},
 		SET_ORDER(state, order) {
 			state.order = order

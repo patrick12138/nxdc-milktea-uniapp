@@ -7,11 +7,11 @@
 				<text>会员码</text>
 			</button>
 		</view>
-		
+
 		<view style="padding: 0 30rpx;">
 			<!-- user box begin -->
 			<view class="d-flex flex-column bg-white user-box">
-				
+
 				<view class="d-flex align-items-center">
 					<view class="avatar">
 						<image :src="isLogin ? member.avatar : '/static/images/mine/default.png'"></image>
@@ -118,7 +118,7 @@
 						<image src="/static/images/mine/stxy.png"></image>
 					</view>
 					<view>送她心愿</view>
-					<image :src="newIcon" class="new-badage"></image>
+					<!-- <image :src="newIcon" class="new-badage"></image> -->
 				</view>
 				<view class="grid">
 					<view class="image">
@@ -126,11 +126,11 @@
 					</view>
 					<view>奈雪商城</view>
 				</view>
-				<view class="grid">
+				<view class="grid" @tap = "logout">
 					<view class="image">
-						<image src="/static/images/mine/lxkf.png"></image>
+						<image src="/static/images/mine/logout.png"></image>
 					</view>
-					<view>联系客服</view>
+					<view>退出登录</view>
 				</view>
 				<view class="grid" @tap="orders">
 					<view class="image">
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-	import {mapState, mapGetters} from 'vuex'
+	import {mapState, mapGetters,mapMutations} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -184,13 +184,16 @@
 				return currentValue / (currentValue + needValue) * 100
 			}
 		},
-		onLoad() {
-		},
 		methods: {
+			...mapMutations(['REMOVE_MEMBER']),
 			login() {
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
+			},
+			logout(){
+				this.REMOVE_MEMBER();
+				uni.navigateBack()
 			},
 			packages() {
 				if(!this.isLogin) {
@@ -295,7 +298,7 @@
 page {
 	height: auto;
 	min-height: 100%;
-}	
+}
 
 .bg {
 	width: 100%;
@@ -316,7 +319,7 @@ page {
 	&::after {
 		border: 0;
 	}
-	
+
 	image {
 		width: 30rpx;
 		height: 30rpx;
@@ -326,7 +329,7 @@ page {
 
 .user-box {
 	position: relative;
-	border-radius: 8rpx; 
+	border-radius: 8rpx;
 	margin-bottom: 30rpx;
 	margin-top: -115rpx;
 	box-shadow: $box-shadow;
@@ -345,13 +348,13 @@ page {
 	justify-content: center;
 	background-color: #FFFFFF;
 	box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.2);
-	
+
 	image {
 		width: 140rpx;
 		height: 140rpx;
 		border-radius: 100%;
 	}
-	
+
 	.badge {
 		position: absolute;
 		right: -10rpx;
@@ -365,7 +368,7 @@ page {
 		font-size: 24rpx;
 		padding: 8rpx 16rpx;
 		box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.2);
-		
+
 		image {
 			width: 30rpx;
 			height: 30rpx;
@@ -386,14 +389,14 @@ page {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	
+
 	.value {
 		margin-bottom: 20rpx;
 	}
 }
 
 .level-benefit-box {
-	border-radius: 8rpx; 
+	border-radius: 8rpx;
 	margin-bottom: 30rpx;
 	box-shadow: 0 10rpx 8rpx rgba($color: #878889, $alpha: 0.1);
 	width: 100%;
@@ -401,13 +404,13 @@ page {
 	padding: 30rpx;
 	flex-direction: column;
 	background-color: #FFFFFF;
-	
+
 	.row {
 		display: flex;
 		padding: 30rpx 0 20rpx;
 		justify-content: space-around;
 		align-items: center;
-		
+
 		.grid {
 			width: 20%;
 			display: flex;
@@ -436,14 +439,14 @@ page {
 	background-color: #FFFFFF;
 	padding: 32rpx 30rpx 10rpx;
 	box-shadow: $box-shadow;
-	
+
 	.row {
 		display: flex;
 		flex-wrap: wrap;
 		color: $text-color-assist;
 		font-size: $font-size-sm;
 		padding-bottom: -40rpx;
-		
+
 		.grid {
 			display: flex;
 			flex-direction: column;
@@ -452,7 +455,7 @@ page {
 			margin-bottom: 40rpx;
 			width: 25%;
 			position: relative;
-			
+
 			.image {
 				image {
 					width: 80rpx;
@@ -460,7 +463,7 @@ page {
 					margin-bottom: 20rpx;
 				}
 			}
-			
+
 			.new-badage {
 				width: 40rpx;
 				height: 40rpx;

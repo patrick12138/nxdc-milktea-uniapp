@@ -4,13 +4,12 @@
 			<view class="nav">
 				<view class="header">
 					<view class="left" v-if="orderType == 'takein'">
-						<view class="store-name">
-							<text>{{ store.name }}</text>
-							<view class="iconfont iconarrow-right"></view>
+						<view class="store-name" >
+							<text>{{ store.name }} </text>
 						</view>
-						<view class="store-location">
+						<view class="store-location" >
 							<image src='/static/images/order/location.png' style="width: 30rpx; height: 30rpx;" class="mr-10"></image>
-							<text>距离您 {{ store.distance_text }}</text>
+							<text @tap="selectCityPage"> {{ selectCity }}</text>
 						</view>
 					</view>
 					<view class="left overflow-hidden" v-else>
@@ -24,24 +23,20 @@
 							由<text class="text-color-base" style="margin: 0 10rpx">{{ store.name }}</text>配送
 						</view>
 					</view>
-					<view class="right">
+					<!-- <view class="right">
 						<view class="dinein" :class="{active: orderType == 'takein'}" @tap="SET_ORDER_TYPE('takein')">
 							<text>自取</text>
 						</view>
 						<view class="takeout" :class="{active: orderType == 'takeout'}" @tap="takout">
 							<text>外卖</text>
 						</view>
-					</view>
-				</view>
-				<view class="coupon">
-					<text class="title">"霸气mini卡"超级购券活动，赶紧去购买</text>
-					<view class="iconfont iconarrow-right"></view>
+					</view> -->
 				</view>
 			</view>
 			<view class="content">
 				<scroll-view class="menus" :scroll-into-view="menuScrollIntoView" scroll-with-animation scroll-y>
 					<view class="wrapper">
-						<view class="menu" :id="`menu-${item.id}`" :class="{'current': item.id === currentCateId}" v-for="(item, index) in goods" 
+						<view class="menu" :id="`menu-${item.id}`" :class="{'current': item.id === currentCateId}" v-for="(item, index) in goods"
 						:key="index" @tap="handleMenuTap(item.id)">
 							<text>{{ item.name }}</text>
 							<view class="dot" v-show="menuCartNum(item.id)">{{ menuCartNum(item.id) }}</view>
@@ -51,17 +46,12 @@
 				<!-- goods list begin -->
 				<scroll-view class="goods" scroll-with-animation scroll-y :scroll-top="cateScrollTop" @scroll="handleGoodsScroll">
 					<view class="wrapper">
-						<swiper class="ads" id="ads" autoplay :interval="3000" indicator-dots>
-							<swiper-item v-for="(item, index) in ads" :key='index'>
-								<image :src="item.image"></image>
-							</swiper-item>
-						</swiper>
 						<view class="list">
 							<!-- category begin -->
 							<view class="category" v-for="(item, index) in goods" :key="index" :id="`cate-${item.id}`">
 								<view class="title">
 									<text>{{ item.name }}</text>
-									<image :src="item.icon" class="icon"></image>
+									<!-- <image :src="item.icon" class="icon"></image> -->
 								</view>
 								<view class="items">
 									<!-- 商品 begin -->
@@ -71,24 +61,24 @@
 											<text class="name">{{ good.name }}</text>
 											<text class="tips">{{ good.content }}</text>
 											<view class="price_and_action">
-												<text class="price">￥{{ good.price }}</text>
+												<!-- <text class="price">{{ good.price }}</text> -->
 												<view class="btn-group" v-if="good.use_property">
-													<button type="primary" class="btn property_btn" hover-class="none"
+													<!-- <button type="primary" class="btn property_btn" hover-class="none"
 													 size="mini" @tap="showGoodDetailModal(item, good)">
 														选规格
-													</button>
+													</button> -->
 													<view class="dot" v-show="goodCartNum(good.id)">{{ goodCartNum(good.id) }}</view>
 												</view>
 												<view class="btn-group" v-else>
-													<button type="default" v-show="goodCartNum(good.id)" plain class="btn reduce_btn"
+													<!-- <button type="default" v-show="goodCartNum(good.id)" plain class="btn reduce_btn"
 													 size="mini" hover-class="none" @tap="handleReduceFromCart(item, good)">
 														<view class="iconfont iconsami-select"></view>
-													</button>
+													</button> -->
 													<view class="number" v-show="goodCartNum(good.id)">{{ goodCartNum(good.id) }}</view>
-													<button type="primary" class="btn add_btn" size="min" hover-class="none" 
+												<!-- 	<button type="primary" class="btn add_btn" size="min" hover-class="none"
 														@tap="handleAddToCart(item, good, 1)">
 														<view class="iconfont iconadd-select"></view>
-													</button>
+													</button> -->
 												</view>
 											</view>
 										</view>
@@ -117,7 +107,7 @@
 			<!-- 购物车栏 end -->
 		</view>
 		<!-- 商品详情模态框 begin -->
-		<modal :show="goodDetailModalVisible" class="good-detail-modal" color="#5A5B5C" 
+		<modal :show="goodDetailModalVisible" class="good-detail-modal" color="#5A5B5C"
 				width="90%" custom padding="0rpx" radius="12rpx">
 			<view class="cover">
 				<image v-if="good.images" :src="good.images" class="image"></image>
@@ -139,8 +129,8 @@
 								<view class="desc" v-if="item.desc">({{ item.desc }})</view>
 							</view>
 							<view class="values">
-								<view class="value" v-for="(value, key) in item.values" :key="key" 
-								:class="{'default': value.is_default}" 
+								<view class="value" v-for="(value, key) in item.values" :key="key"
+								:class="{'default': value.is_default}"
 								@tap="changePropertyDefault(index, key)">
 									{{ value.value }}
 								</view>
@@ -157,12 +147,12 @@
 					</view>
 				</view>
 				<view class="btn-group">
-					<button type="default" plain class="btn" size="mini" hover-class="none" 
+					<button type="default" plain class="btn" size="mini" hover-class="none"
 						@tap="handlePropertyReduce">
 						<view class="iconfont iconsami-select"></view>
 					</button>
 					<view class="number">{{ good.number }}</view>
-					<button type="primary" class="btn" size="min" hover-class="none" 
+					<button type="primary" class="btn" size="min" hover-class="none"
 						@tap="handlePropertyAdd">
 						<view class="iconfont iconadd-select"></view>
 					</button>
@@ -242,13 +232,6 @@ export default {
 	data() {
 		return {
 			goods: [], //所有商品
-			ads: [
-				{image: 'https://img-shop.qmimg.cn/s23107/2020/04/27/4ebdb582a5185358c4.jpg?imageView2/2/w/600/h/600'},
-				{image: 'https://images.qmai.cn/s23107/2020/05/08/c25de6ef72d2890630.png?imageView2/2/w/600/h/600'},
-				{image: 'https://img-shop.qmimg.cn/s23107/2020/04/10/add546c1b1561f880d.jpg?imageView2/2/w/600/h/600'},
-				{image: 'https://images.qmai.cn/s23107/2020/04/30/b3af19e0de8ed42f61.jpg?imageView2/2/w/600/h/600'},
-				{image: 'https://img-shop.qmimg.cn/s23107/2020/04/17/8aeb78516d63864420.jpg?imageView2/2/w/600/h/600'}
-			],
 			loading: true,
 			currentCateId: 6905,//默认分类
 			cateScrollTop: 0,
@@ -258,11 +241,22 @@ export default {
 			good: {}, //当前饮品
 			category: {}, //当前饮品所在分类
 			cartPopupVisible: false,
-			sizeCalcState: false
+			sizeCalcState: false,
+			selectCity:''
 		}
 	},
 	async onLoad() {
 		await this.init()
+		//判断城市数据,如果没有,就重新请求一次.
+		if (this.selectCity) {} else {
+			this.getLocation();
+		}
+	},
+	onShow() {
+		const selectCity = uni.getStorageSync('selectCity');
+		if(selectCity){
+			this.selectCity = selectCity;
+		}
 	},
 	computed: {
 		...mapState(['orderType', 'address', 'store']),
@@ -303,18 +297,17 @@ export default {
 		async init() {	//页面初始化
 			this.loading = true
 			await this.getStore()
-			this.goods = await this.$api('goods')
+			this.goods = await this.$api('restaurant')
 			this.loading = false
 			this.cart = uni.getStorageSync('cart') || []
 		},
 		takout() {
 			if(this.orderType == 'takeout') return
-			
+
 			if(!this.isLogin) {
 				uni.navigateTo({url: '/pages/login/login'})
 				return
 			}
-			
 			uni.navigateTo({
 				url: '/pages/address/address?is_choose=true'
 			})
@@ -323,7 +316,7 @@ export default {
 			if(!this.sizeCalcState) {
 				this.calcSize()
 			}
-			
+
 			this.currentCateId = id
 			this.$nextTick(() => this.cateScrollTop = this.goods.find(item => item.id == id).top)
 		},
@@ -339,14 +332,14 @@ export default {
 		},
 		calcSize() {
 			let h = 10
-			
+
 			let view = uni.createSelectorQuery().select('#ads')
 			view.fields({
 				size: true
 			}, data => {
-				h += Math.floor(data.height)
+				// h += Math.floor(data.height)
 			}).exec()
-			
+
 			this.goods.forEach(item => {
 				let view = uni.createSelectorQuery().select(`#cate-${item.id}`)
 				view.fields({
@@ -464,14 +457,37 @@ export default {
 				uni.navigateTo({url: '/pages/login/login'})
 				return
 			}
-			
+
 			uni.showLoading({title: '加载中'})
 			uni.setStorageSync('cart', JSON.parse(JSON.stringify(this.cart)))
-			
+
 			uni.navigateTo({
 				url: '/pages/pay/pay'
 			})
 			uni.hideLoading()
+		},
+		getLocation() {
+			uni.getLocation({
+				type: 'wgs84',
+				success: res => {
+					console.log(res);
+					let latitude = res.latitude;
+					let longitude = res.longitude;
+					uni.request({
+						url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude +
+							'&key=UGMBZ-S5AKU-YQGV3-47M5J-BAQ62-ZBBJW',
+						success: data => {
+							console.log(data);
+							this.selectCity = data.data.result.address_component.city;
+						}
+					});
+				}
+			});
+		},
+		selectCityPage() {
+			uni.navigateTo({
+				url: "../cityselect/cityselect"
+			})
 		}
 	}
 };
