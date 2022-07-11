@@ -4,6 +4,10 @@
 
 一套仿奈雪の茶小程序的项目模板。
 
+fork来自 [nxdc-milktea](https://gitee.com/caoyang/nxdc-milktea) 感谢！
+
+新增城市选择，退出登录，商家选择，微信登录api等
+
 ### 说明
 
 1. 本项目包含：
